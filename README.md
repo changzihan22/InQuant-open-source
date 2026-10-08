@@ -1,7 +1,7 @@
 <div align="center">
-<h1 align="center">InQuant</h1>
-<h3 align="center">n-Place Mixed-Precision KV Cache Quantization via Saliency-Aware Neighbor-Slot Reuse</h3>
 
+<h1 style="font-size: 6rem; line-height: 1.1;">InQuant</h1>
+<p style="font-size: 6rem;">In-Place Mixed-Precision KV Cache Quantization via Saliency-Aware Neighbor-Slot Reuse</p>
 [About](#about) · [Results](#results) · [Installation](#installation) · [Quick Start](#quick-start) · [vLLM](#vllm-extension)
 
 </div>
