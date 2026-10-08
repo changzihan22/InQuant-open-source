@@ -26,10 +26,10 @@ Uniform quantization gives every channel the same precision. InQuant stores an i
 ### How it works
 
 <p align="center">
-  <img src="docs/assets/figure-3.png" width="900" alt="Figure 3: sampled saliency estimation, neighbor-slot reuse, adjacent-outlier handling, and descriptor-guided reconstruction." />
+  <img src="docs/assets/figure-2.png" width="900" alt="Figure 3: sampled saliency estimation, neighbor-slot reuse, adjacent-outlier handling, and descriptor-guided reconstruction." />
 </p>
 
-*Figure 3 summarizes the compression and reconstruction workflow described in the paper.*
+*Figure 2 summarizes the compression and reconstruction workflow described in the paper.*
 
 1. **Estimate saliency.** Sample token positions and use channel magnitudes to identify important channels.
 2. **Reuse nearby slots.** Split each salient channel's 8-bit code across two 4-bit slots, borrowing one from a less important channel.
