@@ -1,7 +1,8 @@
 <div align="center">
 
-<h1 style="font-size: 12rem; line-height: 1.1;">InQuant</h1>
-<p style="font-size: 12rem;">In-Place Mixed-Precision KV Cache Quantization via Saliency-Aware Neighbor-Slot Reuse</p>
+# InQuant
+
+# In-Place Mixed-Precision KV Cache Quantization via Saliency-Aware Neighbor-Slot Reuse
 
 [About](#about) · [Results](#results) · [Installation](#installation) · [Quick Start](#quick-start) · [vLLM](#vllm-extension)
 
@@ -381,7 +382,7 @@ Use `run_eval.py` or `run_vllm.py` for end-to-end measurements. When reporting a
 To build a source archive with a per-file SHA256 manifest:
 
 ```bash
-.venv/bin/python scripts/package_source.py --output ../InQuant-open-source-en.zip
+.venv/bin/python scripts/package_source.py --output ../InQuant-open-source.zip
 ```
 
 ## License and Acknowledgments
