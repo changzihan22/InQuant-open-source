@@ -1,0 +1,17 @@
+# Constraints for the measured Python 3.12 / A100 / PyTorch cu126 environment.
+torch==2.7.0
+triton==3.3.0
+transformers==4.53.3
+kvpress==0.2.0
+math-verify==0.8.0
+latex2sympy2_extended==1.10.2
+sympy==1.14.0
+accelerate==1.15.0
+datasets==2.21.0
+huggingface-hub==0.33.1
+tokenizers==0.21.2
+safetensors==0.4.5
+pyarrow==17.0.0
+numpy==2.0.1
+requests==2.32.3
+pytest==8.4.2

@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "inquant-qwen"
+version = "0.1.0"
+description = "InQuant packed KV reference implementation and reproducible Qwen2.5 experiments"
+readme = "README.md"
+license = {file = "LICENSE"}
+requires-python = ">=3.10"
+dependencies = ["torch>=2.4"]
+
+[project.optional-dependencies]
+hf = ["transformers==4.53.3", "accelerate>=1.0,<2", "datasets>=2.21,<4", "math-verify==0.8.0"]
+press = ["kvpress==0.2.0", "transformers==4.53.3"]
+test = ["pytest>=8"]
+benchmarks = ["wonderwords==2.2.0", "tenacity==9.1.2", "html2text==2025.4.15", "nltk==3.10.3", "scipy==1.14.1", "beautifulsoup4==4.15.0", "PyYAML==6.0.2", "requests==2.32.3", "pyarrow==17.0.0"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

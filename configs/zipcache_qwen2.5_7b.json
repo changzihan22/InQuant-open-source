@@ -1,0 +1,26 @@
+{
+  "model": "Qwen/Qwen2.5-7B-Instruct",
+  "revision": "main",
+  "dtype": "bfloat16",
+  "attention": "sdpa",
+  "block_size": 256,
+  "residual_length": 128,
+  "sink_tokens": 4,
+  "sample_stride": 8,
+  "salient_fraction": 0.125,
+  "compression_ratio": 0.5,
+  "max_new_tokens": 2048,
+  "warmup_runs": 2,
+  "repeats": 1,
+  "fixed_output_length": false,
+  "rope_scaling": null,
+  "seed": 42,
+  "validate_positions": false,
+  "zipcache": {
+    "important_bits": 4,
+    "unimportant_bits": 2,
+    "unimportant_ratio": 0.4,
+    "streaming_gap": 100,
+    "probe_chunk_size": 32
+  }
+}

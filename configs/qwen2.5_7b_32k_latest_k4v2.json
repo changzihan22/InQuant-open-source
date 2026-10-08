@@ -1,0 +1,34 @@
+{
+  "model": "Qwen/Qwen2.5-7B-Instruct",
+  "revision": "main",
+  "dtype": "bfloat16",
+  "attention": "sdpa",
+  "block_size": 256,
+  "residual_length": 128,
+  "sink_tokens": 4,
+  "sample_stride": 8,
+  "salient_fraction": 0.125,
+  "compression_ratio": 0.5,
+  "max_new_tokens": 128,
+  "warmup_runs": 2,
+  "repeats": 5,
+  "fixed_output_length": true,
+  "rope_scaling": {
+    "rope_type": "yarn",
+    "factor": 4.0,
+    "original_max_position_embeddings": 32768
+  },
+  "seed": 42,
+  "validate_positions": false,
+  "donor_policy": "min_error",
+  "track_peak_bytes": true,
+  "shared_workspace": true,
+  "value_bits": 2,
+  "value_group_size": 64,
+  "short_context": {
+    "max_context_tokens": 4096,
+    "block_size": 64,
+    "residual_length": 32
+  },
+  "donor_backend": "triton"
+}

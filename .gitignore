@@ -1,0 +1,15 @@
+__pycache__/
+.pytest_cache/
+*.egg-info/
+.venv*/
+data/
+outputs/
+archive/
+*.pdf
+*.zip
+models/
+build/
+dist/
+.env
+.env.*
+!.env.example

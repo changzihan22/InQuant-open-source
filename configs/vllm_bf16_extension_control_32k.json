@@ -1,0 +1,41 @@
+{
+  "name": "vllm_bf16_extension_control_32k",
+  "backend": "vllm_native_baseline",
+  "vllm_version": "0.9.1",
+  "environment": {
+    "INQUANT_VLLM": "0",
+    "VLLM_USE_V1": "1",
+    "VLLM_WORKER_MULTIPROC_METHOD": "spawn"
+  },
+  "engine": {
+    "model": "models/Qwen2.5-7B-Instruct",
+    "dtype": "bfloat16",
+    "kv_cache_dtype": "auto",
+    "max_model_len": 32896,
+    "max_num_seqs": 1,
+    "max_num_batched_tokens": 32896,
+    "enable_chunked_prefill": false,
+    "enable_prefix_caching": false,
+    "enforce_eager": true,
+    "block_size": 256,
+    "gpu_memory_utilization": 0.8,
+    "tensor_parallel_size": 1,
+    "seed": 42,
+    "num_gpu_blocks_override": 130,
+    "hf_overrides": {
+      "rope_scaling": {
+        "rope_type": "yarn",
+        "factor": 4.0,
+        "original_max_position_embeddings": 32768
+      },
+      "max_position_embeddings": 131072
+    }
+  },
+  "workload": {
+    "input_tokens": 32768,
+    "output_tokens": 128,
+    "batch_size": 1,
+    "warmup_runs": 2,
+    "repeats": 5
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "name": "vllm_inquant_smoke",
+  "backend": "inquant_vllm",
+  "vllm_version": "0.9.1",
+  "environment": {
+    "INQUANT_VLLM": "1",
+    "VLLM_USE_V1": "1",
+    "VLLM_WORKER_MULTIPROC_METHOD": "spawn",
+    "INQUANT_DIRECT_WRITE": "1",
+    "INQUANT_DONOR_BACKEND": "triton"
+  },
+  "engine": {
+    "model": "models/Qwen2.5-7B-Instruct",
+    "dtype": "bfloat16",
+    "kv_cache_dtype": "auto",
+    "max_model_len": 1152,
+    "max_num_seqs": 1,
+    "max_num_batched_tokens": 1152,
+    "enable_chunked_prefill": false,
+    "enable_prefix_caching": false,
+    "enforce_eager": true,
+    "block_size": 256,
+    "gpu_memory_utilization": 0.8,
+    "tensor_parallel_size": 1,
+    "seed": 42,
+    "num_gpu_blocks_override": 6
+  },
+  "workload": {
+    "input_tokens": 1024,
+    "output_tokens": 128,
+    "batch_size": 1,
+    "warmup_runs": 2,
+    "repeats": 2
+  }
+}

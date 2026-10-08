@@ -1,0 +1,142 @@
+{
+  "scope": "Development/runtime iteration, not a new GSM8K or MATH500 test-set benchmark",
+  "gpu": "NVIDIA A100-PCIE-40GB",
+  "long_context_hf": {
+    "records": 9,
+    "identical_decoded_text_and_counts": true,
+    "token_ids_available_in_both": false,
+    "baseline_total_e2e_s": 75.48576283454895,
+    "candidate_total_e2e_s": 74.0289930254221,
+    "latency_reduction_pct": 1.9298603530308434,
+    "baseline_mean_kv_bytes": 415015552,
+    "candidate_mean_kv_bytes": 413194880,
+    "datasets": {
+      "passkey32k": {
+        "records": 9,
+        "unique_examples": 3,
+        "baseline_correct": 9,
+        "candidate_correct": 9,
+        "baseline_mean_e2e_s": 8.38730698161655,
+        "candidate_mean_e2e_s": 8.225443669491344
+      }
+    }
+  },
+  "development32_first_pass": {
+    "records": 32,
+    "identical_decoded_text_and_counts": true,
+    "token_ids_available_in_both": false,
+    "baseline_total_e2e_s": 504.7314719334245,
+    "candidate_total_e2e_s": 494.52232168614864,
+    "latency_reduction_pct": 2.022689452704163,
+    "baseline_mean_kv_bytes": 11791717,
+    "candidate_mean_kv_bytes": 11728815,
+    "datasets": {
+      "gsm8k": {
+        "records": 16,
+        "unique_examples": 16,
+        "baseline_correct": 15,
+        "candidate_correct": 15,
+        "baseline_mean_e2e_s": 10.744767114752904,
+        "candidate_mean_e2e_s": 9.979117585578933
+      },
+      "math_train": {
+        "records": 16,
+        "unique_examples": 16,
+        "baseline_correct": 9,
+        "candidate_correct": 9,
+        "baseline_mean_e2e_s": 20.800949881086126,
+        "candidate_mean_e2e_s": 20.928527519805357
+      }
+    }
+  },
+  "warmed_latency4": {
+    "records": 12,
+    "identical_decoded_text_and_counts": true,
+    "token_ids_available_in_both": false,
+    "baseline_total_e2e_s": 134.5239959768951,
+    "candidate_total_e2e_s": 123.76073344051838,
+    "latency_reduction_pct": 8.000998229509426,
+    "baseline_mean_kv_bytes": 9567824,
+    "candidate_mean_kv_bytes": 9542512,
+    "datasets": {
+      "gsm8k": {
+        "records": 6,
+        "unique_examples": 2,
+        "baseline_correct": 6,
+        "candidate_correct": 6,
+        "baseline_mean_e2e_s": 12.288253778591752,
+        "candidate_mean_e2e_s": 11.32637344673276
+      },
+      "math_train": {
+        "records": 6,
+        "unique_examples": 2,
+        "baseline_correct": 6,
+        "candidate_correct": 6,
+        "baseline_mean_e2e_s": 10.13241221755743,
+        "candidate_mean_e2e_s": 9.300415460020304
+      }
+    }
+  },
+  "vllm_32k_frozen_final": {
+    "baseline_median_workload_s": 18.843152470886707,
+    "candidate_median_workload_s": 18.37134888395667,
+    "requests_per_workload": 3,
+    "baseline_retrieval": {
+      "correct": 9,
+      "total": 9,
+      "all_correct": true
+    },
+    "candidate_retrieval": {
+      "correct": 9,
+      "total": 9,
+      "all_correct": true
+    },
+    "latency_reduction_pct": 2.50384635829376,
+    "identical_token_ids": true,
+    "baseline_run_seconds": [
+      18.771370630711317,
+      18.843152470886707,
+      18.881262816488743
+    ],
+    "candidate_run_seconds": [
+      18.37134888395667,
+      18.378710329532623,
+      18.362623911350965
+    ]
+  },
+  "artifact_sha256": {
+    "baseline_long.jsonl": "43e29346ce6d78ea886d3461cac887bfb5429d8c67049235ba53f2fbbb04a7f8",
+    "candidate_long.jsonl": "853876df57348d559ed6d3b1fc923b63643fd2d24dcd56e18703917a7ab40ee9",
+    "baseline_development32.jsonl": "199ad330eef80cee2d5cd84b9f770b580483f3212304dbad63a9e487dfa6c591",
+    "candidate_development32.jsonl": "c7fa36dab03f4be20f4abb4b9e2a489182992f569a215aaea8225c8aa201f5d5",
+    "baseline_latency4.jsonl": "02c791c6d1daae22f4989cacfe2e1ea7fcf5369fc966b3114bd162126aeedc16",
+    "candidate_latency4.jsonl": "ca5a0ce600c36bb1ea6168e2ab178a1ee54f5da27e48f18be5b804b25fff5212",
+    "vllm_baseline_long_repeat.json": "ffd47213bff05c67045a71551ae1c954ad5b3f12e9415b34d40a0a7bf4ee2401",
+    "vllm_candidate_long_repeat.json": "5255ab7d81528cd9b7d127c7d450b5c1a7efaa7dbef2a90e5766ce5d485df1b2",
+    "decode_pair.json": "2fac911949638d9790513a1ec37c54e76bf80ed4b03377cbc7921483306bb89f",
+    "page_packing.json": "4d90167f37922a6864477c05381b606b607640d47bafb96580420d2ef15320de"
+  },
+  "source_snapshots": {
+    "baseline_sha256": "cb6a9218bb9f4f0a6702398cec26757e340b4e6885205576401679e642cb82e5",
+    "hf_first_pass_candidate_sha256": "944904ddde39b0a719e83149e709f28a2041392f299c237ca91d3452aee79c81",
+    "final_candidate_sha256": "fa873088dfeb6051a2f0283a99a86318818d438cc4d69de69bc97720aa875809"
+  },
+  "tests": {
+    "core": 116,
+    "vllm_extension": 32,
+    "gpu": "NVIDIA A100-PCIE-40GB"
+  },
+  "latency_subset_positions": [
+    0,
+    8,
+    16,
+    24
+  ],
+  "measurement_notes": [
+    "Before/after runs used the same physical GPU within each backend: GPU0 for HF and GPU1 for vLLM.",
+    "Backend campaigns ran on separate GPUs on one host; these observations do not establish performance on other hardware.",
+    "First-pass development timings include new-shape Triton compilation; the four-example latency subset was run after warming the compiled kernels.",
+    "HF baseline did not save generated token IDs. Equality claims for HF cover decoded text and generation length.",
+    "Mistral adapter unit tests passed; no pretrained Mistral-7B measurements were made because the local checkpoint was incomplete."
+  ]
+}

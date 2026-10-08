@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "inquant-vllm"
+version = "0.1.0"
+description = "Opt-in InQuant paged KV extension for vLLM 0.9.1"
+readme = "README.md"
+license = {file = "LICENSE"}
+requires-python = ">=3.10"
+dependencies = ["vllm==0.9.1", "inquant-qwen==0.1.0"]
+
+[project.entry-points."vllm.platform_plugins"]
+inquant = "inquant_vllm:register"
+
+[tool.setuptools.packages.find]
+where = ["src"]

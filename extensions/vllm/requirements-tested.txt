@@ -1,0 +1,13 @@
+# Tested on A100 SM80, Python 3.12, CUDA 12.6; separate from HF's environment.
+vllm==0.9.1
+torch==2.7.0
+triton==3.3.0
+transformers==4.53.0
+tokenizers==0.21.2
+numpy==2.0.1
+huggingface-hub==0.33.1
+safetensors==0.4.5
+math-verify==0.8.0
+latex2sympy2_extended==1.10.2
+antlr4-python3-runtime==4.13.2
+pytest==8.4.2
