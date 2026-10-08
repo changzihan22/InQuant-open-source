@@ -1,8 +1,6 @@
 <div align="center">
-
-# InQuant
-
-**In-place mixed-precision KV cache quantization for LLM inference**
+<h1 align="center">InQuant</h1>
+<h3 align="center">n-Place Mixed-Precision KV Cache Quantization via Saliency-Aware Neighbor-Slot Reuse</h3>
 
 [About](#about) · [Results](#results) · [Installation](#installation) · [Quick Start](#quick-start) · [vLLM](#vllm-extension)
 
