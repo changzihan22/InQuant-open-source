@@ -130,14 +130,6 @@ python3.12 -m venv .venv
 
 The `press` extra provides the SnapKV and Knorm baselines. The ZipCache codec is included in `third_party/`. The vLLM extension uses a [separate environment](#vllm-extension).
 
-### Model support
-
-| Model | Hugging Face | vLLM | Validation |
-|---|---|---|---|
-| Qwen2.5-7B-Instruct | Supported | Experimental | End-to-end runs |
-| Mistral-7B-Instruct-v0.2 / v0.3, full attention | Experimental | — | CPU/CUDA adapter tests |
-
-Pretrained Mistral-7B accuracy and performance measurements are not yet available. The fused Hugging Face path uses batch size 1, CUDA, and head dimension 128. Sliding-window attention is not supported.
 
 ### Model files
 
