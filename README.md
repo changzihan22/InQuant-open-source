@@ -71,6 +71,50 @@ The examples create `data/` and `outputs/` locally. Model weights, datasets, and
 
 ## Results
 
+All results below use **Qwen2.5-7B-Instruct, BF16 weights, one NVIDIA A100 40GB, and one active request**. The full-dataset evaluation, vLLM comparison, and GPU runtime measurements are separate experiments with their own sample counts and implementation settings.
+
+### GSM8K, MATH500, and 32K retrieval
+
+The Hugging Face + Triton evaluation uses the **K4/V2** configuration (`latest_k4v2_v1`), Transformers 4.53.3, and the Torch donor selector from the recorded implementation. GSM8K covers all **1319 test questions** and MATH500 all **500 questions**, with greedy decoding and a **2048-token output cap**. The 32K workload uses **32768 input tokens and 128 fixed output tokens**, with three passkey depths, two warmup runs, and five measured repetitions per depth.
+
+| Method | GSM8K accuracy | MATH500 accuracy | 32K persistent KV and decode state | 32K time per request |
+|---|---:|---:|---:|---:|
+| InQuant K4/V2 | 91.81% (1211/1319) | 76.20% (381/500) | 395.79 MiB | 8.415 s |
+| BF16 | 91.36% (1205/1319) | 78.80% (394/500) | 1798.95 MiB | 11.015 s |
+| SnapKV | 85.29% (1125/1319) | 71.80% (359/500) | 902.95 MiB | 8.656 s |
+| Knorm | 5.61% (74/1319) | 12.80% (64/500) | 902.95 MiB | 8.541 s |
+| ZipCache | 90.60% (1195/1319) | 70.20% (351/500) | 412.25 MiB | 19.581 s |
+
+All five methods retrieve **15/15** passkeys correctly. In this experiment, InQuant reduces persistent KV and decode state by **78.00%** and median request time by **23.60%** relative to BF16. Its GSM8K accuracy is **0.45 percentage points higher**, and its MATH500 accuracy is **2.60 percentage points lower**. Relative to this ZipCache adapter, its 32K storage and median request time are **3.99%** and **57.02%** lower, respectively.
+
+GSM8K scores include an answer-extraction audit: a Markdown-heading parsing error affected one correct BF16 answer and one correct SnapKV answer. Their original recorded counts were 1204 and 1124; the audited counts above are 1205 and 1125. InQuant, Knorm, and ZipCache counts are unchanged. MATH500 uses the recorded `math-verify` scores.
+
+32K time is the median end-to-end request time, excluding model loading and warmup. Storage includes packed KV, quantization metadata, the full-precision sink and tail, and persistent decode workspace. SnapKV and Knorm use KVpress 0.2.0 with `compression_ratio=0.5`; SnapKV skips compression on short inputs when the retention budget cannot cover its observation window. ZipCache uses the Qwen reference adapter, which reconstructs historical KV at every decoding step. These configurations have different cache budgets.
+
+The math workloads have variable output lengths. InQuant's mean time per question is **10.874 s on GSM8K** and **20.899 s on MATH500**, compared with BF16's **7.327 s** and **13.896 s**. The reported speed benefit is specific to the fixed-output 32K workload. Knorm's scores describe the tested configuration and do not establish a ranking across other models or settings.
+
+The [full-dataset measurement record](benchmarks/hf_full_evaluation.json) includes audited and original counts, timing statistics, protocol settings, and source hashes. These measurements precede the GPU donor-selection and decode-state changes in the runtime experiment below; they are retained as results of the recorded implementation.
+
+### vLLM BF16 comparison
+
+This experiment uses **vLLM 0.9.1**, Transformers 4.53.0, eager execution, and one active request. The 32K input and fixed output lengths match the workload above. Each measured round runs three requests sequentially; the table reports the median of five rounds after two warmup rounds.
+
+| Metric | vLLM BF16 | InQuant vLLM |
+|---|---:|---:|
+| Time per round of three 32K requests | 16.649 s | 18.952 s |
+| Passkey retrieval | 15/15 | 15/15 |
+| Active-request cache storage | 1798.95 MiB | 394.33 MiB |
+| GSM8K, fixed random subset | 93.75% (30/32) | 90.625% (29/32) |
+| MATH500, fixed random subset | 71.875% (23/32) | 68.75% (22/32) |
+
+Under these accounting scopes, cache storage is **78.08% lower** and median workload time is **13.83% higher** with InQuant. BF16 storage is the calculated KV payload; InQuant storage includes active pages, page metadata, sink and tail capacity, and shared decode workspace. These figures exclude the full reserved vLLM pool and do not represent total process GPU memory.
+
+The math subsets use seed **20260919**, greedy decoding, and a **2048-token output cap**. InQuant answers one fewer question correctly on each subset, a decrease of **3.125 percentage points**. These are 32-question subset results. The HF and vLLM implementations have different page boundaries and tail retention, so their accuracy results are reported separately.
+
+See the [vLLM comparison record](benchmarks/vllm_extension_comparison.json) for per-round times, math output-token counts, memory accounting, and source hashes. This comparison uses the recorded extension before the direct-page-write runtime changes below.
+
+### GPU runtime measurements
+
 The following measurements use **Qwen2.5-7B-Instruct, BF16 weights, and one NVIDIA A100 40GB**, with one active request. Each request has **32768 input tokens and 128 generated tokens**. The retrieval workload places a passkey at three context depths and repeats each input three times.
 
 | Backend | End-to-end time per request | Passkey retrieval |
@@ -78,7 +122,7 @@ The following measurements use **Qwen2.5-7B-Instruct, BF16 weights, and one NVID
 | InQuant · Hugging Face + Triton | 8.225 s | 9/9 |
 | InQuant · vLLM 0.9.1 | 6.124 s | 9/9 |
 
-Hugging Face reports the mean of nine request times. The vLLM value is the median time for a group of three sequential requests divided by three. Model loading and warmup are excluded. These results measure long-context retrieval and runtime, rather than GSM8K or MATH500 test accuracy.
+Hugging Face reports the mean of nine request times. The vLLM value is the median time for a group of three sequential requests divided by three. Model loading and warmup are excluded. These results measure long-context retrieval and runtime with GPU donor selection and updated decode state; the vLLM run also uses direct physical-page writes.
 
 The Hugging Face run uses **394.05 MiB** for persistent KV and decode state, including packed values, scales, metadata, the full-precision sink and tail, and decode workspace. vLLM reports active cache storage separately from its reserved memory pool.
 
@@ -377,7 +421,7 @@ The tests cover codec reconstruction, cache growth, model adapters, paged attent
   --output outputs/page_packing.json
 ```
 
-Use `run_eval.py` or `run_vllm.py` for end-to-end measurements. When reporting an issue, include the model, dependency versions, GPU, configuration, and a minimal reproduction command. Planned algorithm and serving improvements are described in [ROADMAP.md](ROADMAP.md).
+Use `run_eval.py` or `run_vllm.py` for end-to-end measurements. 
 
 To build a source archive with a per-file SHA256 manifest:
 
