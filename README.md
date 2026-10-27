@@ -1,6 +1,6 @@
 <div align="center">
 
-# InQuant
+# InQuant [NeurIPS 2026]
 
 # In-Place Mixed-Precision KV Cache Quantization via Saliency-Aware Neighbor-Slot Reuse
 
@@ -14,7 +14,7 @@ InQuant compresses the key-value (KV) cache used during language model inference
 
 The paper **InQuant: In-Place Mixed-Precision KV Cache Quantization via Saliency-Aware Neighbor-Slot Reuse** introduces this approach. This repository includes packed KV codecs, Triton attention kernels, Hugging Face integrations for Qwen2.5 and Mistral, and an experimental vLLM extension.
 
-### The idea
+### Key idea
 
 <p align="center">
   <img src="docs/assets/figure-1.png" width="900" alt="Figure 1: comparison of uniform quantization, separate outlier storage, channel permutation, and InQuant neighbor-slot reuse." />
